@@ -44,7 +44,7 @@ const legalization = async (browser) => {
             } else {
                 console.log("😖 Leglization nothing available yet 😢")
                 no_time.title = "Leglization Appoinment"
-                await axios.post(process.env.WEBHOOK, no_time);
+                if (process.env.SEND_ON_NOTAVAILABLE == 'true') await axios.post(process.env.WEBHOOK, no_time);
             }
           } catch(err) {
             console.log(err);

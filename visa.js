@@ -4,6 +4,7 @@ const password = process.env.VISA_PASSWORD;
 const axios = require('axios');
 const time_found = require('./time_found.json')
 const no_time = require('./no_time.json')
+
 const visa  = async (browser) => {
     const page = await browser.newPage();
     await page.goto('https://de.tlscontact.com/eg/cai/login.php', {waitUntil: 'networkidle0'});
@@ -44,7 +45,7 @@ const visa  = async (browser) => {
             } else {
                 no_time.title = "Visa Appoinment"
                 console.log("😖 Visa nothing available yet 😢")
-                await axios.post(process.env.WEBHOOK, no_time);
+                if (process.env.SEND_ON_NOTAVAILABLE == 'true') await axios.post(process.env.WEBHOOK, no_time);
             }
           } catch(err) {
             console.log(err);
