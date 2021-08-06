@@ -1,9 +1,10 @@
-const puppeteer = require('puppeteer');
+
 const email = process.env.VISA_EMAIL;
 const password = process.env.VISA_PASSWORD;
-
-(async () => {
-    const browser = await puppeteer.launch({ headless: false });
+const axios = require('axios');
+const time_found = require('./time_found.json')
+const no_time = require('./no_time.json')
+const visa  = async (browser) => {
     const page = await browser.newPage();
     await page.goto('https://de.tlscontact.com/eg/cai/login.php', {waitUntil: 'networkidle0'});
 
@@ -21,7 +22,7 @@ const password = process.env.VISA_PASSWORD;
     await page.waitForNavigation({ waitUntil: 'domcontentloaded' })
     setInterval(async () => {
         await page.reload()
-        console.log("Check for appointment")
+        console.log("Check for visa appointment")
         try {
             // Will throw err if element is not present and visible.
             const elements = await page.$x('//*[@id="timeTable"]/div/div/a')
@@ -31,13 +32,23 @@ const password = process.env.VISA_PASSWORD;
                 } else return null
             }, elm)))
             if (appointments.filter(appt => appt).length) {
-                console.log("❤️  Appointment available");
+                console.log("❤️  Visa Appointment");
                 appointments.filter(appt => appt).map(apt => console.log(apt))
+                time_found.title = "Visa Appoinment Available"
+                time_found.potentialAction[0].targets[0].uri = "https://de.tlscontact.com/eg/cai/login.php"
+                time_found.sections = appointments.filter(appt => appt).map(apt => ({
+                    "title": apt
+                }))
+                await axios.post(process.env.WEBHOOK, time_found);
             } else {
-                console.log("😖 nothing available yet 😢")
+                no_time.title = "Visa Appoinment"
+                console.log("😖 Visa nothing available yet 😢")
+                await axios.post(process.env.WEBHOOK, no_time);
             }
           } catch(err) {
             console.log(err);
           }
-    }, 20*1000)
-})();
+    }, 15*60*1000)
+};
+
+module.exports = visa
