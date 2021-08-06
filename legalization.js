@@ -20,6 +20,7 @@ const legalization = async (browser) => {
 
     page.click('.submit');
     await page.waitForNavigation({ waitUntil: 'domcontentloaded' })
+    console.log("Leglization logged in");
     setInterval(async () => {
         await page.reload()
         console.log("Check for leglization appointment")

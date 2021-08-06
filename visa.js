@@ -20,6 +20,7 @@ const visa  = async (browser) => {
 
     page.click('.submit');
     await page.waitForNavigation({ waitUntil: 'domcontentloaded' })
+    console.log("Visa logged in");
     setInterval(async () => {
         await page.reload()
         console.log("Check for visa appointment")
