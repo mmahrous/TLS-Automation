@@ -4,7 +4,8 @@ const visa = require('./visa')
 const legalization = require('./legalization')
 
 const main = async () => {
-    const browser = await puppeteer.launch({ headless: true });
+    console.log("STARTED")
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
     await legalization(browser);
     await visa(browser);
     setInterval(async () => {
