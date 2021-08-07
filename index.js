@@ -10,7 +10,7 @@ const main = async () => {
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
     await legalization(browser);
     await visa(browser);
-    setInterval(async () => {
+    setTimeout(async () => {
       await browser.close()
       main()
     }, 2*60*60*1000)
