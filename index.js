@@ -11,8 +11,7 @@ const main = async () => {
     await legalization(browser);
     await visa(browser);
     setTimeout(async () => {
-      await browser.close()
-      main()
+      process.exit()
     }, 2*60*60*1000)
 };
 
