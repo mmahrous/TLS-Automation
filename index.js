@@ -9,7 +9,7 @@ const main = async () => {
     console.log("STARTED")
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
     await legalization(browser);
-    await visa(browser);
+    // await visa(browser);
 };
 
 main()

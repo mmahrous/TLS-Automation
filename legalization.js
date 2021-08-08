@@ -49,7 +49,7 @@ const legalization = async (browser) => {
           } catch(err) {
             console.log(err);
           }
-    }, 15*60*1000)
+    }, 5*60*1000)
 };
 
 module.exports = legalization
